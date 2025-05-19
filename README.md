@@ -1,50 +1,69 @@
-AU 4D Radar
+Building a verification environment for the AU 4D Radar Sensor
 ===========
 
 ## Introduction
-
-au_4d_radar is a collection of ROS2 packages supporting 4D Radar Sensors.
-This program has been tested on ubuntu 22.04 ROS2 humble.
-Supports automatic connection and communication functions without having to set the IP of each Radar sensor in a local network environment.
+This is a guide document for building a development environment to self-verify the operation of the AU 4D Radar Sensor.
 
 ## How to build the au_4d_radar
 
-**Create a new work directory of ROS2**:
-
+**Download AU 4D Radar ROS2 Test Source code**:
 ```bash
-mkdir -p ~/share/ros2_ws/src
-```
+$ git clone https://github.com/auradar/au_4d_radar_test.git
+$ mkdir -p au_4d_radar_test/src
 
 **Download AU 4D Radar ROS2 Source code**:
-
 ```bash
-$ cd ~/share/ros2_ws/src
-$ git clone https://github.com/auradar/au_4d_radar.git
-$ cd au_4d_radar
-$ git checkout vx.x
-$ git submodule update --init --recursive
+$ cd au_4d_radar_test/src
+$ git clone https://github.com/auradar/au_4d_radar.git -b [branch]
 ```
 
 **Download radar messages**:
-
 ```bash
-$ cd ~/share/ros2_ws/src
+$ cd au_4d_radar_test/src
 $ git clone https://github.com/ros-perception/radar_msgs.git
 ```
 
 **Download monitor messages**:
-
 ```bash
-$ cd ~/share/ros2_ws/src
-$ git clone -b v2.0 https://github.com/auradar/mon_msgs.git
+$ cd au_4d_radar_test/src
+$ git clone https://github.com/auradar/mon_msgs.git -b v2.0
 ```
+
+**Download tf_publisher_radar**:
+```bash
+$ cd au_4d_radar_test/src
+$ git clone https://github.com/auradar/tf_publisher_radar.git
+```
+
+### Frame ID Naming convention:
+> If you want to display an identifier instead of frame_id, enter frame_id: identifier in the `system_info.yaml` file.
+
+```yaml
+radars:
+  27c06058: FRONT RIGHT
+  0b089dfa: REAR LEFT
+```
+
+### Build Packages:
+```bash
+$ cd au_4d_radar_test
+$ source _build.sh
+```
+
+###  Run Packages:
+```bash
+$ cd au_4d_radar_test
+$ source _run.sh
+```
+
+## Package Install
+> When you first install the RADAR ROS2 driver on your host, you will need to install the following packages:
 
 ### Install FlatBuffers:
 
 **1. Download the FlatBuffers**
-
 ```bash
-export VERSION=v24.3.25
+export VERSION=v25.2.10
 git clone https://github.com/google/flatbuffers.git flatbuffers_$VERSION
 cd flatbuffers_$VERSION
 git checkout $VERSION
@@ -52,7 +71,6 @@ git submodule update --init --recursive
 ```
 
 **2. Build and install the FlatBuffers**
-
 ```cmake
 mkdir build
 cd build
@@ -68,76 +86,12 @@ make -j$(nproc)
 sudo make install
 ```
 
-### Install xacro :
+### Install xacro:
 ```bash
 sudo apt install ros-humble-xacro
 ```
 
-### Install Eigen :
+### Install Eigen:
 ```bash
 sudo apt-get install libeigen3-dev
-```
-
-### Frame ID Naming convention:
-
-> The `system_info.yaml` file is structured as follows.
-
-```yaml
-radars:
-  frame_id: identifier  
-```
-
-> If you want to display an identifier instead of frame_id, enter frame_id: identifier in the `system_info.yaml` file.
-
-```yaml
-radars:
-  27c06058: FRONT RIGHT
-  0b089dfa: REAR LEFT
-```
-
-**Compile**:
-
-```bash
-$ cd ~/share/ros2_ws
-$ colcon build --cmake-args -DCMAKE_BUILD_TYPE=Relaese --packages-up-to au_4d_radar
-```
-
-**Running Radar Node using launch actions**:
-
-```bash
-$ cd ~/share/ros2_ws
-source install/local_setup.bash
-ros2 launch au_4d_radar run_radar.launch.py
-```
-
-### Run-time composition using ROS services
-
-**Run in shell 1**:
-
-> In the first shell, start the component container:
-
-```bash
-$ cd ~/share/ros2_ws
-source install/local_setup.bash
-ros2 run rclcpp_components component_container
-```
-
-**Run in shell 2**:
-
-> In the second shell load device_au_radar_node node
-
-```bash
-$ cd ~/share/ros2_ws
-source install/local_setup.bash
-ros2 component load /ComponentManager au_4d_radar au_4d_radar::device_au_radar_node
-```
-
-**Run in shell 3**:
-
-> In the third shell load Listener node(If you want to check subscriptions for messages from the device_au_radar_node publisher)
-
-```bash
-$ cd ~/share/ros2_ws
-source install/local_setup.bash
-ros2 component load /ComponentManager au_4d_radar au_4d_radar::Listener
 ```
