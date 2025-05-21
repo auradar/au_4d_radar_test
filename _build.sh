@@ -4,7 +4,8 @@ if [ -z "$1" ]; then
 echo "== build only =="
 else
 echo "== remove and build =="
-rm -rf install build log
+# rm -rf install build log
+rm -rf install/au_4d_radar/ build/au_4d_radar/ log/
 
 export AMENT_PREFIX_PATH=$(echo "$AMENT_PREFIX_PATH" | tr ':' '\n' | grep -v "install/au_4d_radar" | paste -sd:)
 export CMAKE_PREFIX_PATH=$(echo "$CMAKE_PREFIX_PATH" | tr ':' '\n' | grep -v "install/au_4d_radar" | paste -sd:)
