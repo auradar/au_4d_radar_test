@@ -10,6 +10,7 @@ This is a guide document for building a development environment to self-verify t
 ```bash
 $ git clone https://github.com/auradar/au_4d_radar_test.git -b [branch]
 $ mkdir -p au_4d_radar_test/src
+```
 
 **Download AU 4D Radar ROS2 Source code**:
 ```bash
