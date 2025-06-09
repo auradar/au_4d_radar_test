@@ -3,4 +3,4 @@ build
 install
 log
 src
-log*.txt
+debug-log*.txt
