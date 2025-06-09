@@ -41,7 +41,18 @@ echo "  2. Terminate all ROS nodes"
 echo "  3. Close all terminal windows"
 echo "============================================"
 
-rm log*
+files=(debug-log*)
+if [ -e "${files[0]}" ]; then
+    rm debug-log*
+fi
+
+files2=(core.*)
+if [ -e "${files2[0]}" ]; then
+    rm core.*
+fi
+
+ulimit -c unlimited
+
 ros2 launch au_4d_radar radar.launch.py 2>&1 | tee "log-$(date +%F-%H%M%S).txt"
 
 cleanup

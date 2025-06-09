@@ -12,4 +12,6 @@ export CMAKE_PREFIX_PATH=$(echo "$CMAKE_PREFIX_PATH" | tr ':' '\n' | grep -v "in
 fi
 
 colcon build --cmake-args -DCMAKE_BUILD_TYPE=Debug --packages-select au_4d_radar radar_msgs mon_msgs tf_publisher_radar
+#colcon build --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo --packages-select au_4d_radar radar_msgs mon_msgs tf_publisher_radar
+#colcon build --cmake-args -DCMAKE_BUILD_TYPE=Release --packages-select au_4d_radar radar_msgs mon_msgs tf_publisher_radar
 
