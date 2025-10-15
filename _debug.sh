@@ -57,6 +57,6 @@ fi
 
 ulimit -c unlimited
 
-ros2 launch au_4d_radar radar.launch.py 2>&1 | tee "log-$(date +%F-%H%M%S).txt"
+ros2 launch au_4d_radar radar.launch.py 2>&1 | tee "debug-log-$(date +%F-%H%M%S).txt"
 
 cleanup
