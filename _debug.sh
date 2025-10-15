@@ -16,7 +16,8 @@ cleanup() {
     # 3. Close all terminal windows (including main)
     echo "- Closing all terminal windows..."
     pkill -f "gnome-terminal.*TF Publisher"
-    pkill -f "gnome-terminal.*Radar Listener"
+    pkill -f "gnome-terminal.*HesaiLidar"
+    #pkill -f "gnome-terminal.*Radar Listener"
     pkill -f "run_radar.launch.py"
 
     echo "[System shutdown completed successfully]"
@@ -31,8 +32,11 @@ source install/local_setup.bash
 gnome-terminal --title="📡 TF Publisher" -- bash -c \
     "source install/local_setup.bash; ros2 launch tf_publisher_radar tf_publisher.launch.py; exec bash"
 
-gnome-terminal --title="📡 Radar Listener" -- bash -c \
-    "source install/local_setup.bash; ros2 launch au_4d_radar listener.launch.py; exec bash"
+gnome-terminal --title="📡 HesaiLidar" -- bash -c \
+"cd /home/ubuntu/install/HesaiLidar_ROS_2.0; source install/local_setup.bash; ros2 launch hesai_ros_driver start.py"
+
+# gnome-terminal --title="📡 Radar Listener" -- bash -c \
+#     "source install/local_setup.bash; ros2 launch au_4d_radar listener.launch.py; exec bash"
 
 echo "============================================"
 echo "  System running... Press Ctrl+C to:"
