@@ -1,18 +1,17 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 gnome-terminal -- bash -c "source install/local_setup.bash; ros2 launch tf_publisher_radar tf_publisher.launch.py; exec bash"
 gnome-terminal -- bash -c "cd /home/ubuntu/install/HesaiLidar_ROS_2.0; source install/local_setup.bash; ros2 launch hesai_ros_driver start.py"
 #gnome-terminal -- bash -c "source install/local_setup.bash; ros2 launch au_4d_radar listener.launch.py; exec bash"
 
-files=(debug-log*)
-if [ -e "${files[0]}" ]; then
-    rm debug-log*
-fi
+shopt -s nullglob
 
-files2=(core.*)
-if [ -e "${files2[0]}" ]; then
-    rm core.*
-fi
+for pattern in 'debug-log*' 'core.*' '*.txt'; do
+    mapfile -t files < <(find . -maxdepth 1 -type f -name "$pattern" -printf '%P\n')
+    if [ ${#files[@]} -gt 0 ]; then
+        rm -- "${files[@]}"
+    fi
+done
 
 ulimit -c unlimited
 
