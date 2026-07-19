@@ -6,6 +6,7 @@ else
     echo "== remove and build =="
     rm -rf install build log
 
+    export COLCON_PREFIX_PATH=$(echo "$COLCON_PREFIX_PATH" | tr ':' '\n' | grep -v "au_4d_radar_test/install" | paste -sd:)
     export AMENT_PREFIX_PATH=$(echo "$AMENT_PREFIX_PATH" | tr ':' '\n' | grep -v "au_4d_radar_test/install" | paste -sd:)
     export CMAKE_PREFIX_PATH=$(echo "$CMAKE_PREFIX_PATH" | tr ':' '\n' | grep -v "au_4d_radar_test/install" | paste -sd:)
 fi
